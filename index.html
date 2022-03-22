@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Roman Numeral Converter</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="cover.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Roman Numeral Converter</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="starter-template" id="app">
+
+            <h1>Enter a number...</h1>
+            <div class="form-group">
+                <input id="converter" v-model="number" type="number" name="converter" class="form-control input-lg" placeholder="12">
+            </div>
+
+            <p class="lead" v-show="number">
+              {{ romanNumeral }}
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.20/vue.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          number: 4
+        },
+        computed: {
+          romanNumeral: function() {
+            return convert(this.number);
+          }
+        }
+      })
+
+      function convert(number) {
+        var romanNumerals = {
+          M: 1000,
+          CM: 900,
+          D: 500,
+          CD: 400,
+          C: 100,
+          XC: 90,
+          L: 50,
+          XL: 40,
+          X: 10,
+          IX: 9,
+          V: 5,
+          IV: 4,
+          I: 1
+        };
+        var solution = '';
+
+        if (!+number) {
+          return "Please enter a number."
+        };
+
+        if (number < 1) {
+          return "Please enter a positive number."
+        }
+
+        if (number >= 5000) {
+          return "Please enter a number less than 5000."
+        }
+        
+        for (var i in romanNumerals) {
+          while (number >= romanNumerals[i]) {
+            solution += i;
+            number -= romanNumerals[i];
+          }
+        }
+
+        return solution;
+      }
+
+      document.getElementById('converter').focus();
+    </script>
+  </body>
+</html>
